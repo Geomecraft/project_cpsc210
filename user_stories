@@ -1,0 +1,6 @@
+As a user, I want to be able to see the existing questions in the problem bank
+As a user, I want to add questions to the problem bank
+As a user, I want to delete certain questions from the problem bank
+As a user, I want to add tags to questions so I can easily select questions of similar type/criteria
+As a user, I want to be able to sort questions based on different criteria
+As a user, I want to be able to randomly select some questions of certain criteria to create an exam
