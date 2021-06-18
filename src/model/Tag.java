@@ -4,5 +4,5 @@ import java.util.ArrayList;
 
 public class Tag {
     String name;
-    ArrayList<String>;
+    ArrayList<String> student;
 }

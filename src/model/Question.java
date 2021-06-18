@@ -1,5 +1,7 @@
 package model;
 
+import model.exceptions.DuplicateTagException;
+
 import java.util.ArrayList;
 
 public abstract class Question {
@@ -63,11 +65,16 @@ public abstract class Question {
 
 
     //actual methods
-    public void addTag(String tag){
+    //EFFECTS: add the tag to this question, throw duplicateTagException if the tag is already on this question
+    //MODIFIES: this
+    public void addTag(String tag) throws DuplicateTagException{
+        if (tags.contains(tag)){
+            throw new DuplicateTagException(tag);
+        }
         this.tags.add(tag);
     }
 
-
+    //EFFECTS: check if the recieved answer is the same as the intended answer
     public boolean checkAnswer(String response) {
         return (response.equals(this.answer));
     }
