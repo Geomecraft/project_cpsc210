@@ -10,8 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class QuestionsTest {
     Question q1;
@@ -34,6 +33,13 @@ public class QuestionsTest {
                 );
         q1 = mc1;
 
+        fr1 = new FreeResponse("Calc 1 Derivative Q11",
+                "What is the equation of tangent line at x=4 for function f(x)=(3x-5)^2 ?\n" +
+                        "Show your work",
+                "42(x-4)+49",
+                new ArrayList<String>(),
+                4);
+        q2 = fr1;
     }
 
     @Test
@@ -55,7 +61,21 @@ public class QuestionsTest {
     }
 
     @Test
-    public void testCheckAnswer(){
+    public void testCheckAnswerMC(){
+        assertFalse(q1.checkAnswer("A"));
+        assertTrue(q1.checkAnswer("B"));
+        assertFalse(q1.checkAnswer("C"));
+        assertFalse(q1.checkAnswer("D"));
 
+        q1.setAnswer("A");
+        assertTrue(q1.checkAnswer("A"));
+        assertFalse(q1.checkAnswer("B"));
+        assertFalse(q1.checkAnswer("C"));
+        assertFalse(q1.checkAnswer("D"));
+    }
+
+    public void testCheckAnswerFR(){
+        assertTrue(q2.checkAnswer("ugryk"));
+        assertTrue(q2.checkAnswer("42(x-4)+49"));
     }
 }

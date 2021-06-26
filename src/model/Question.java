@@ -67,11 +67,11 @@ public abstract class Question {
     //actual methods
     //EFFECTS: add the tag to this question, throw duplicateTagException if the tag is already on this question
     //MODIFIES: this
-    public void addTag(String tag) throws DuplicateTagException{
-        if (tags.contains(tag)){
-            throw new DuplicateTagException(tag);
+    public void addTag(String tagName) throws DuplicateTagException{
+        if (tags.contains(tagName)){
+            throw new DuplicateTagException(tagName);
         }
-        this.tags.add(tag);
+        this.tags.add(tagName);
     }
 
     //EFFECTS: check if the recieved answer is the same as the intended answer
