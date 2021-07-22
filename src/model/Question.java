@@ -1,27 +1,36 @@
 package model;
 
+import model.exceptions.DuplicateQuestionException;
 import model.exceptions.DuplicateTagException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class Question {
 
     protected String name;
     protected String description;
     protected String answer;
-    protected ArrayList<String> tags;
+    protected ArrayList<Tag> tags;
     protected int points;
 
-    Question(){
-    }
-
-    Question(String name, String description, String answer, ArrayList<String> tags, int points){
+    Question(String name, String description, String answer, ArrayList<Tag> tags, int points) {
         this.name = name;
         this.description = description;
         this.answer = answer;
         this.tags = tags;
         this.points = points;
     }
+
+    Question(Question question) {
+        this.name = question.name;
+        this.description = question.description;
+        this.answer = question.answer;
+        this.tags = question.tags;
+        this.points = question.points;
+    }
+
+
 
     public String getName() {
         return name;
@@ -35,7 +44,7 @@ public abstract class Question {
         return answer;
     }
 
-    public ArrayList<String> getTags() {
+    public ArrayList<Tag> getTags() {
         return tags;
     }
 
@@ -55,29 +64,48 @@ public abstract class Question {
         this.answer = answer;
     }
 
-    public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
-    }
+//    public void setTags(ArrayList<Tag> tags) {
+//        this.tags = tags;
+//    }
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Question)) {
+            return false;
+        }
+        Question question = (Question) o;
+        return Objects.equals(this.hashCode(), question.hashCode());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
 
     //actual methods
     //EFFECTS: add the tag to this question, throw duplicateTagException if the tag is already on this question
     //MODIFIES: this
-    public void addTag(String tagName) throws DuplicateTagException{
-        if (tags.contains(tagName)){
-            throw new DuplicateTagException(tagName);
+    public void addTag(Tag tag) throws DuplicateTagException, DuplicateQuestionException {
+        if (tags.contains(tag)) {
+            throw new DuplicateTagException(tag.name);
         }
-        this.tags.add(tagName);
+        this.tags.add(tag);
+        if (!tag.getQuestions().contains(this)) {
+            tag.addQuestion(this);
+        }
     }
 
     //EFFECTS: check if the recieved answer is the same as the intended answer
     public boolean checkAnswer(String response) {
         return (response.equals(this.answer));
     }
-
 
 }
