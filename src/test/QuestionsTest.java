@@ -87,7 +87,9 @@ public class QuestionsTest {
         try {
             q1.addTag(calc1);
             fail("An Exception should have occured");
-        } catch (DuplicateTagException e) { } catch (Exception e) {
+        } catch (DuplicateTagException e) {
+
+        } catch (Exception e) {
             fail("An unexpected exception occured");
         }
 
@@ -102,6 +104,28 @@ public class QuestionsTest {
         assertEquals(calc1Knowsq1.getQuestions(), new ArrayList<>(Arrays.asList(q1)));
     }
 
+    @Test
+    public void testRemoveTagTwoWays() {
+        Tag calc1 = new Tag("Calc 1", new ArrayList<>());
+        Tag calc2 = new Tag("Calc 2", new ArrayList<>());
+        try {
+            q1.addTag(calc1);
+        } catch (Exception e) {
+            fail("An unexpected exception occured");
+        }
+        q1.removeTag(calc1);
+        assertTrue(q1.getTags().isEmpty());
+    }
+
+    @Test
+    public void testRemoveTagOneWay() {
+        Tag calc1 = new Tag("Calc 1", new ArrayList<>());
+        Tag calc2 = new Tag("Calc 2", new ArrayList<>());
+        //Question knows tag but tag does not know question
+        q1.setTags(new ArrayList<Tag>(Arrays.asList(calc1, calc2)));
+        q1.removeTag(calc1);
+        assertEquals(q1.getTags(), new ArrayList<>(Arrays.asList(calc2)));
+    }
 
     @Test
     public void testCheckAnswer() {

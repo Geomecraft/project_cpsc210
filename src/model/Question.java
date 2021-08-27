@@ -64,9 +64,9 @@ public abstract class Question {
         this.answer = answer;
     }
 
-//    public void setTags(ArrayList<Tag> tags) {
-//        this.tags = tags;
-//    }
+    public void setTags(ArrayList<Tag> tags) {
+        this.tags = tags;
+    }
 
     public void setPoints(int points) {
         this.points = points;
@@ -100,6 +100,16 @@ public abstract class Question {
         this.tags.add(tag);
         if (!tag.getQuestions().contains(this)) {
             tag.addQuestion(this);
+        }
+    }
+
+    //actual methods
+    //EFFECTS: delete certain tag from this question, does nothing if the tag is not connected to this question in the first place
+    //MODIFIES: this
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+        if (tag.getQuestions().contains(this)) {
+            tag.removeQuestion(this);
         }
     }
 

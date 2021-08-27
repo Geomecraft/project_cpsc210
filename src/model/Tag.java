@@ -70,6 +70,13 @@ public class Tag {
         }
     }
 
+    public void removeQuestion(Question question) {
+        questions.remove(question);
+        if (question.getTags().contains(this)) {
+            question.removeTag(this);
+        }
+    }
+
 //    public void deleteQuestion(String questionName) throws QuestionNotFoundException{
 //        if (!questions.contains(questionName)){
 //            throw new QuestionNotFoundException(questionName);

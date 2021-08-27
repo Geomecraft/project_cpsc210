@@ -15,10 +15,12 @@ import static org.junit.Assert.assertTrue;
 
 public class TagTest {
     Tag tag1;
+    Question q1;
 
     @Before
     public void setup() {
-        tag1 = new Tag("Design Recipe", new ArrayList<>());
+        tag1 = new Tag("testTag", new ArrayList<>());
+        q1 = new MultipleChoice("Test Question", "no description", "", new ArrayList<Tag>(), 0);
     }
 
     @Test
@@ -69,6 +71,27 @@ public class TagTest {
         }
         assertEquals(tag1.getQuestions(), new ArrayList<>(Arrays.asList(q1)));
         assertEquals(q1.getTags(), new ArrayList<>(Arrays.asList(tag1)));
+    }
+
+    @Test
+    public void testRemoveQuestionTwoWay() {
+        try {
+            tag1.addQuestion(q1);
+        } catch (Exception e) {
+            fail("An unexpected exception occured");
+        }
+        tag1.removeQuestion(q1);
+        assertTrue(tag1.getQuestions().isEmpty());
+        assertTrue(q1.getTags().isEmpty());
+    }
+
+    @Test
+    public void testRemoveQuestionOneWay() {
+        //Tag knows question but question does not know this tag
+        Tag tag2 = new Tag("testTag", new ArrayList<Question>(Arrays.asList(q1)));
+        tag2.removeQuestion(q1);
+        assertTrue(tag1.getQuestions().isEmpty());
+        assertTrue(q1.getTags().isEmpty());
     }
 
 }
