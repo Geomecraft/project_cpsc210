@@ -3,16 +3,19 @@ package model;
 import model.exceptions.DuplicateQuestionException;
 import model.exceptions.DuplicateTagException;
 import model.exceptions.QuestionNotFoundException;
+import model.exceptions.TagNotFoundException;
 
 import java.util.ArrayList;
 
 public class ProblemBank {
     ArrayList<Question> questions;
     ArrayList<Tag> tags;
+    ArrayList<Question> selected;
 
-    public ProblemBank(ArrayList<Question> questions, ArrayList<Tag> tags) {
+    public ProblemBank(ArrayList<Question> questions, ArrayList<Tag> tags, ArrayList<Question> selected) {
         this.questions = questions;
         this.tags = tags;
+        this.selected = selected;
     }
 
     public ArrayList<Question> getQuestions() {
@@ -39,6 +42,14 @@ public class ProblemBank {
         tags.add(tag);
     }
 
+    public ArrayList<Question> getSelected() {
+        return selected;
+    }
+
+    public void setSelected(ArrayList<Question> selected) {
+        this.selected = selected;
+    }
+
     public void addTagToExistingQuestion(Tag tag, Question question) throws QuestionNotFoundException, DuplicateQuestionException, DuplicateTagException {
         if (!questions.contains(question)) {
             throw new QuestionNotFoundException(question.getName());
@@ -47,5 +58,15 @@ public class ProblemBank {
             tags.add(tag);
         }
         question.addTag(tag);
+    }
+
+    public void removeTagFromExistingQuestion(Tag tag, Question question) throws QuestionNotFoundException, TagNotFoundException {
+        if (!questions.contains(question)) {
+            throw new QuestionNotFoundException(question.getName());
+        }
+
+        if (!tags.contains(tag)) {
+            throw new TagNotFoundException(tag.getName());
+        }
     }
 }
